@@ -1,6 +1,6 @@
 package outfrost.algorithmdesign;
 
-public class Job {
+public class Job implements java.io.Serializable {
 	
 	private int processingTime = 0;
 	private int dueTime = 0;
@@ -14,7 +14,7 @@ public class Job {
 		setWeight(weight);
 	}
 	
-	public int getTardiness(int completionTime) {
+	public int weightedTardiness(int completionTime) {
 		return Math.max(0, completionTime - dueTime) * weight;
 	}
 	
