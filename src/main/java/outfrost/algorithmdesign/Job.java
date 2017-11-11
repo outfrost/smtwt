@@ -42,4 +42,8 @@ public class Job implements java.io.Serializable {
 		this.weight = weight;
 	}
 	
+	@Override
+	public String toString() {
+		return "Job{ processingTime=" + processingTime + "; dueTime=" + dueTime + "; weight=" + weight + "; }";
+	}
 }
