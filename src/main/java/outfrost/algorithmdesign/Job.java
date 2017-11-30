@@ -44,6 +44,7 @@ public class Job implements java.io.Serializable {
 	
 	@Override
 	public String toString() {
-		return "Job{ processingTime=" + processingTime + "; dueTime=" + dueTime + "; weight=" + weight + "; }";
+		return "Job@" + System.identityHashCode(this) + "{ processingTime=" + processingTime + "; dueTime=" + dueTime + "; weight=" + weight + "; }";
 	}
+	
 }

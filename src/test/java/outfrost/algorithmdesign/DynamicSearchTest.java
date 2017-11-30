@@ -22,6 +22,8 @@ public class DynamicSearchTest extends Test {
 		JobOrder jobs = new JobOrder(Arrays.asList(job0, job1, job2, job3));
 		JobOrder expectedOrder = new JobOrder(Arrays.asList(job0, job1, job3, job2));
 		
+		System.out.println(jobs.toString());
+		
 		DynamicSearch dynamicSearch = new DynamicSearch(jobs);
 		dynamicSearch.findSolution();
 		

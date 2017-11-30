@@ -26,5 +26,9 @@ public class JobOrder extends ArrayList<Job> {
 		}
 		return result;
 	}
-
+	
+	public long longHash() {
+	
+	}
+	
 }
