@@ -2,8 +2,10 @@ package outfrost.algorithmdesign;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
-public class JobOrder extends ArrayList<Job> {
+public class JobOrder extends LinkedList<Job> {
 	
 	public JobOrder() {
 		super();
@@ -12,9 +14,14 @@ public class JobOrder extends ArrayList<Job> {
 	public JobOrder(Collection<? extends Job> c) {
 		super(c);
 	}
-	
+	/*
 	public JobOrder(int initialCapacity) {
 		super(initialCapacity);
+	}
+	*/
+	public void move(int fromIndex, int toIndex) {
+		Job job = remove(fromIndex);
+		add(toIndex, job);
 	}
 	
 	public int totalWeightedTardiness() {
@@ -24,9 +31,11 @@ public class JobOrder extends ArrayList<Job> {
 	public int totalWeightedTardiness(int subsequenceLength) {
 		int result = 0;
 		int moment = 0;
+		ListIterator<Job> iterator = listIterator();
 		for (int i = 0; i < subsequenceLength; i++) {
-			moment += get(i).getProcessingTime();
-			result += get(i).weightedTardiness(moment);
+			Job job = iterator.next();
+			moment += job.getProcessingTime();
+			result += job.weightedTardiness(moment);
 		}
 		return result;
 	}

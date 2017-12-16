@@ -25,21 +25,24 @@ public class DynamicSearch {
 		}
 		
 		int bestWeightedTardiness = jobs.totalWeightedTardiness(subsequenceLength);
-		int bestSwapPosition = subsequenceLength - 1;
+		int bestMovePosition = subsequenceLength - 1;
 		
 		for (int i = 0; i < subsequenceLength - 1; i++) {
-			Collections.swap(jobs, i, subsequenceLength - 1);
+			//Collections.swap(jobs, i, subsequenceLength - 1);
+			jobs.move(subsequenceLength - 1, i);
 			int newWeightedTardiness = jobs.totalWeightedTardiness(subsequenceLength);
 			
 			if (newWeightedTardiness < bestWeightedTardiness) {
 				bestWeightedTardiness = newWeightedTardiness;
-				bestSwapPosition = i;
+				bestMovePosition = i;
 			}
 			
-			Collections.swap(jobs, i, subsequenceLength - 1);
+			//Collections.swap(jobs, i, subsequenceLength - 1);
+			jobs.move(i, subsequenceLength - 1);
 		}
 		
-		Collections.swap(jobs, bestSwapPosition, subsequenceLength - 1);
+		//Collections.swap(jobs, bestMovePosition, subsequenceLength - 1);
+		jobs.move(subsequenceLength - 1, bestMovePosition);
 	}
 	/*
 	public DynamicSearch(JobOrder jobs) {
