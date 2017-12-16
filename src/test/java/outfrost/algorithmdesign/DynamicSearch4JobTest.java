@@ -2,7 +2,7 @@ package outfrost.algorithmdesign;
 
 import java.util.Arrays;
 
-public class DynamicSearchTest extends Test {
+public class DynamicSearch4JobTest extends Test {
 	
 	@Override
 	public void run() {
