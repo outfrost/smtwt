@@ -6,6 +6,7 @@
 
 # Local IDE generated files
 .idea/**/uiDesigner.xml
+.idea/libraries/
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
