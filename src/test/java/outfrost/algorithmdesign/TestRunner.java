@@ -6,6 +6,8 @@ public class TestRunner {
 		
 		new DynamicSearch4JobTest().run();
 		
+		
+		
 	}
 
 }

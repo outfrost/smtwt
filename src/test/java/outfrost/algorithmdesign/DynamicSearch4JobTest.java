@@ -6,6 +6,8 @@ public class DynamicSearch4JobTest extends Test {
 	
 	@Override
 	public void run() {
+		System.out.println("Running trivial 4-job test...");
+		
 		/*
 		j		processing_time		weight		due_after
 		0		26					1			118
