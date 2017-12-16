@@ -26,13 +26,17 @@ public class DynamicSearch4JobTest extends Test {
 		
 		System.out.println("Initial sequence:");
 		System.out.println(jobs.toString());
-		System.out.println("Expected sequence:");
+		System.out.println("Expected sequence after initial heuristic sort:");
 		System.out.println(expectedOrder.toString());
 		
 		DynamicSearch.sort(jobs);
 		
 		System.out.println("After initial heuristic sort:");
 		System.out.println(jobs.toString());
+		
+		if(!jobs.equals(expectedOrder)) {
+			System.err.println("DynamicSearch4JobTest: The result of initial heuristic sort did not match the expected sequence.");
+		}
 		
 		DynamicSearch.findSolution(jobs);
 		
