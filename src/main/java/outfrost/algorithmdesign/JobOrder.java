@@ -18,17 +18,22 @@ public class JobOrder extends ArrayList<Job> {
 	}
 	
 	public int totalWeightedTardiness() {
+		return totalWeightedTardiness(size());
+	}
+	
+	public int totalWeightedTardiness(int subsequenceLength) {
 		int result = 0;
 		int moment = 0;
-		for (Job job : this) {
-			moment += job.getProcessingTime();
-			result += job.weightedTardiness(moment);
+		for (int i = 0; i < subsequenceLength; i++) {
+			moment += get(i).getProcessingTime();
+			result += get(i).weightedTardiness(moment);
 		}
 		return result;
 	}
 	
-	public long longHash() {
-	
+	@Override
+	public String toString() {
+		return "JobOrder@" + System.identityHashCode(this) + "{ totalWeightedTardiness()=" + totalWeightedTardiness() + "; " + super.toString() + " }";
 	}
 	
 }

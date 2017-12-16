@@ -22,15 +22,20 @@ public class DynamicSearchTest extends Test {
 		JobOrder jobs = new JobOrder(Arrays.asList(job0, job1, job2, job3));
 		JobOrder expectedOrder = new JobOrder(Arrays.asList(job0, job1, job3, job2));
 		
+		System.out.println("Initial sequence:");
+		System.out.println(jobs.toString());
+		System.out.println("Expected sequence:");
+		System.out.println(expectedOrder.toString());
+		
+		DynamicSearch.sort(jobs);
+		
+		System.out.println("After initial heuristic sort:");
 		System.out.println(jobs.toString());
 		
-		DynamicSearch dynamicSearch = new DynamicSearch(jobs);
-		dynamicSearch.findSolution();
+		DynamicSearch.findSolution(jobs);
 		
-		JobOrder resultingOrder = dynamicSearch.getJobOrder();
-		assert resultingOrder.equals(expectedOrder);
-		
-		System.out.println(resultingOrder.toString());
+		System.out.println("Solution:");
+		System.out.println(jobs.toString());
 	}
 	
 }

@@ -15,7 +15,7 @@ public class Job implements java.io.Serializable {
 	}
 	
 	public int weightedTardiness(int completionTime) {
-		return Math.max(0, completionTime - dueTime) * weight;
+		return Math.max(0, completionTime - dueTime) * weight; // TODO Zero-clamp the tardiness somewhere
 	}
 	
 	public int getProcessingTime() {
