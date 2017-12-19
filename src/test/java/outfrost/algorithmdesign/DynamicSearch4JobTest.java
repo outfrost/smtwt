@@ -16,10 +16,10 @@ public class DynamicSearch4JobTest extends Test {
 		3		46					10			127
 		 */
 		
-		Job job0 = new Job(26, 118, 1);
-		Job job1 = new Job(24, 122, 10);
-		Job job2 = new Job(79, 133, 9);
-		Job job3 = new Job(46, 127, 10);
+		Job job0 = new Job(0, 26, 118, 1);
+		Job job1 = new Job(1, 24, 122, 10);
+		Job job2 = new Job(2, 79, 133, 9);
+		Job job3 = new Job(3, 46, 127, 10);
 		
 		JobOrder jobs = new JobOrder(Arrays.asList(job0, job1, job2, job3));
 		JobOrder expectedOrder = new JobOrder(Arrays.asList(job0, job1, job3, job2));

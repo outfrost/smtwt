@@ -2,13 +2,16 @@ package outfrost.algorithmdesign;
 
 public class Job implements java.io.Serializable {
 	
+	private int id = 0;
+	
 	private int processingTime = 0;
 	private int dueTime = 0;
 	private int weight = 0;
 	
 	public Job() { }
 	
-	public Job(int processingTime, int dueTime, int weight) {
+	public Job(int id, int processingTime, int dueTime, int weight) {
+		setId(id);
 		setProcessingTime(processingTime);
 		setDueTime(dueTime);
 		setWeight(weight);
@@ -16,6 +19,14 @@ public class Job implements java.io.Serializable {
 	
 	public int weightedTardiness(int completionTime) {
 		return Math.max(0, completionTime - dueTime) * weight;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public int getProcessingTime() {
@@ -44,7 +55,7 @@ public class Job implements java.io.Serializable {
 	
 	@Override
 	public String toString() {
-		return "Job@" + System.identityHashCode(this) + "{ processingTime=" + processingTime + "; dueTime=" + dueTime + "; weight=" + weight + "; }";
+		return "Job@" + System.identityHashCode(this) + "{ id=" + id + "; processingTime=" + processingTime + "; dueTime=" + dueTime + "; weight=" + weight + "; }";
 	}
 	
 }
