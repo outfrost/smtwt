@@ -1,26 +1,47 @@
 package outfrost.algorithmdesign;
 
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
-public class TabuList extends LinkedHashSet<Tabu> {
+public class TabuList extends LinkedList<Tabu> {
 	
-	private final int capacityLimit;
-	
-	public TabuList(int capacityLimit) {
-		super(capacityLimit);
-		this.capacityLimit = capacityLimit;
-	}
+	private final int capacity;
 	
 	public TabuList() {
-		super(16);
-		capacityLimit = 16;
+		this(16);
+	}
+	
+	public TabuList(int capacity) {
+		super();
+		this.capacity = capacity;
+	}
+	
+	@Override
+	public boolean contains(Object o) {
+		if (o instanceof Tabu) {
+			return contains((Tabu) o);
+		}
+		return false;
+	}
+	
+	public boolean contains(Tabu value) {
+		if (value != null) {
+			for (Tabu tabu : this) {
+				if (tabu.equals(value)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	@Override
 	public boolean add(Tabu tabu) {
-		while (size() >= capacityLimit) {
-		
+		if (tabu != null && !contains(tabu)) {
+			while (size() >= capacity) {
+				remove();
+			}
+			return super.add(tabu);
 		}
-		return super.add(tabu);
+		return false;
 	}
 }
