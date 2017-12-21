@@ -24,10 +24,15 @@ public class TabuSearchLive40Test extends Test {
 			System.out.println("After initial heuristic sort:");
 			System.out.println(jobs.toString());
 			
+			long startTime = System.nanoTime();
+			
 			tabuSearch.findSolution();
+			
+			long timeTaken = System.nanoTime() - startTime;
 			
 			System.out.println("Solution:");
 			System.out.println(jobs.toString());
+			System.out.println("Time taken: " + timeTaken + " ns");
 		} catch (IOException e) {
 			System.err.println("Error loading problem instance: " + e.getMessage());
 		} finally {
