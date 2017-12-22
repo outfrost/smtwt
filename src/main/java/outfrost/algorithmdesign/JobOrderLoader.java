@@ -36,14 +36,25 @@ public class JobOrderLoader {
 		}
 		
 		for (int i = 0; i < processingTimes.size(); i++) {
-			if (processingTimes.get(i).equals("") ||
-				weights.get(i).equals("") ||
-				dueTimes.get(i).equals("")) {
-				
+			if (processingTimes.get(i).equals("")) {
 				processingTimes.remove(i);
+			}
+		}
+		
+		for (int i = 0; i < weights.size(); i++) {
+			if (weights.get(i).equals("")) {
 				weights.remove(i);
+			}
+		}
+		
+		for (int i = 0; i < dueTimes.size(); i++) {
+			if (dueTimes.get(i).equals("")) {
 				dueTimes.remove(i);
 			}
+		}
+		
+		if (processingTimes.size() != weights.size() || processingTimes.size() != dueTimes.size()) {
+			throw new IOException("The numbers of entries for processing times, weights and/or due times did not match up.");
 		}
 		
 		JobOrder result = new JobOrder();
