@@ -1,4 +1,4 @@
-package outfrost.algorithmdesign;
+package outfrost.algorithmdesign.smtwt.tabusearch;
 
 import java.util.LinkedList;
 

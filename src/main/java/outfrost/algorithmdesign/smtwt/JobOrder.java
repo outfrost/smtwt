@@ -1,4 +1,4 @@
-package outfrost.algorithmdesign;
+package outfrost.algorithmdesign.smtwt;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,4 +1,7 @@
-package outfrost.algorithmdesign;
+package outfrost.algorithmdesign.smtwt.util;
+
+import outfrost.algorithmdesign.smtwt.Job;
+import outfrost.algorithmdesign.smtwt.JobOrder;
 
 import java.io.BufferedReader;
 import java.io.IOException;

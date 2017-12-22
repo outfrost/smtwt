@@ -1,4 +1,6 @@
-package outfrost.algorithmdesign;
+package outfrost.algorithmdesign.smtwt.tabusearch;
+
+import outfrost.algorithmdesign.smtwt.Job;
 
 import java.io.Serializable;
 

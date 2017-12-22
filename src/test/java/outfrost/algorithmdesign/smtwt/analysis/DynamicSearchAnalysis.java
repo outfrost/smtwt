@@ -1,8 +1,8 @@
-package outfrost.algorithmdesign.analysis;
+package outfrost.algorithmdesign.smtwt.analysis;
 
-import outfrost.algorithmdesign.DynamicSearch;
-import outfrost.algorithmdesign.JobOrder;
-import outfrost.algorithmdesign.JobOrderLoader;
+import outfrost.algorithmdesign.smtwt.dynasearch.DynamicSearch;
+import outfrost.algorithmdesign.smtwt.JobOrder;
+import outfrost.algorithmdesign.smtwt.util.JobOrderLoader;
 
 import java.io.FileInputStream;
 import java.io.IOException;

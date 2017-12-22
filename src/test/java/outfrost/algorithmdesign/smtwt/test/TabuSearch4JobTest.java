@@ -1,8 +1,8 @@
-package outfrost.algorithmdesign.test;
+package outfrost.algorithmdesign.smtwt.test;
 
-import outfrost.algorithmdesign.Job;
-import outfrost.algorithmdesign.JobOrder;
-import outfrost.algorithmdesign.TabuSearch;
+import outfrost.algorithmdesign.smtwt.Job;
+import outfrost.algorithmdesign.smtwt.JobOrder;
+import outfrost.algorithmdesign.smtwt.tabusearch.TabuSearch;
 
 import java.util.Arrays;
 

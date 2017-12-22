@@ -1,6 +1,6 @@
-package outfrost.algorithmdesign.heuristic;
+package outfrost.algorithmdesign.smtwt.heuristic;
 
-import outfrost.algorithmdesign.Job;
+import outfrost.algorithmdesign.smtwt.Job;
 
 import java.util.Comparator;
 

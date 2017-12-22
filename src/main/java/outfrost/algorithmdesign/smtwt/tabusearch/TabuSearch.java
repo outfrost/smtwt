@@ -1,6 +1,8 @@
-package outfrost.algorithmdesign;
+package outfrost.algorithmdesign.smtwt.tabusearch;
 
-import outfrost.algorithmdesign.heuristic.EarliestDueDateHeuristic;
+import outfrost.algorithmdesign.smtwt.Job;
+import outfrost.algorithmdesign.smtwt.JobOrder;
+import outfrost.algorithmdesign.smtwt.heuristic.EarliestDueDateHeuristic;
 
 import java.util.Collections;
 import java.util.Comparator;

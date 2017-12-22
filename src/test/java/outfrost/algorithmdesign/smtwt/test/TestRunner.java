@@ -1,4 +1,4 @@
-package outfrost.algorithmdesign.test;
+package outfrost.algorithmdesign.smtwt.test;
 
 import org.reflections.Reflections;
 
