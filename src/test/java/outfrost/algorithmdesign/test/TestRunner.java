@@ -1,4 +1,4 @@
-package outfrost.algorithmdesign;
+package outfrost.algorithmdesign.test;
 
 import org.reflections.Reflections;
 

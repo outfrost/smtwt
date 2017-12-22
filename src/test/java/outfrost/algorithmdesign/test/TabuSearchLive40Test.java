@@ -1,4 +1,8 @@
-package outfrost.algorithmdesign;
+package outfrost.algorithmdesign.test;
+
+import outfrost.algorithmdesign.JobOrder;
+import outfrost.algorithmdesign.JobOrderLoader;
+import outfrost.algorithmdesign.TabuSearch;
 
 import java.io.FileInputStream;
 import java.io.IOException;

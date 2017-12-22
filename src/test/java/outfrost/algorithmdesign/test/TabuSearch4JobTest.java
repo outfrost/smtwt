@@ -1,12 +1,16 @@
-package outfrost.algorithmdesign;
+package outfrost.algorithmdesign.test;
+
+import outfrost.algorithmdesign.Job;
+import outfrost.algorithmdesign.JobOrder;
+import outfrost.algorithmdesign.TabuSearch;
 
 import java.util.Arrays;
 
-public class DynamicSearch4JobTest extends Test {
+public class TabuSearch4JobTest extends Test {
 	
 	@Override
 	public void run() {
-		System.out.println("Running trivial 4-job test with dynamic search...");
+		System.out.println("Running trivial 4-job test with tabu search...");
 		
 		/*
 		j		processing_time		weight		due_after
@@ -22,6 +26,8 @@ public class DynamicSearch4JobTest extends Test {
 		Job job3 = new Job(3, 46, 127, 10);
 		
 		JobOrder jobs = new JobOrder(Arrays.asList(job0, job1, job2, job3));
+		TabuSearch tabuSearch = new TabuSearch(jobs);
+		
 		JobOrder expectedOrder = new JobOrder(Arrays.asList(job0, job1, job3, job2));
 		
 		System.out.println("Initial sequence:");
@@ -29,7 +35,7 @@ public class DynamicSearch4JobTest extends Test {
 		System.out.println("Expected sequence after initial heuristic sort:");
 		System.out.println(expectedOrder.toString());
 		
-		DynamicSearch.sort(jobs);
+		tabuSearch.sort();
 		
 		System.out.println("After initial heuristic sort:");
 		System.out.println(jobs.toString());
@@ -38,7 +44,7 @@ public class DynamicSearch4JobTest extends Test {
 			System.err.println("DynamicSearch4JobTest: The result of initial heuristic sort did not match the expected sequence.");
 		}
 		
-		DynamicSearch.findSolution(jobs);
+		tabuSearch.findSolution();
 		
 		System.out.println("Solution:");
 		System.out.println(jobs.toString());
