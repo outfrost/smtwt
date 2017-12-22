@@ -20,3 +20,6 @@
 # Compiled classes & packages
 out/
 target/
+
+# Execution results
+data/result/

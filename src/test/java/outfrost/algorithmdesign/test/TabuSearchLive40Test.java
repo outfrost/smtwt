@@ -16,7 +16,7 @@ public class TabuSearchLive40Test extends Test {
 		
 		JobOrder jobs = null;
 		try {
-			jobs = JobOrderLoader.load(new FileInputStream("wt40.txt"), 125, DynamicSearchLive40Test.instanceIndex);
+			jobs = JobOrderLoader.load(new FileInputStream("data/wt40.txt"), 125, DynamicSearchLive40Test.instanceIndex);
 			
 			TabuSearch tabuSearch = new TabuSearch(jobs);
 			

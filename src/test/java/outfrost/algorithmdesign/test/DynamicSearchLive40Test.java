@@ -19,7 +19,7 @@ public class DynamicSearchLive40Test extends Test {
 		
 		JobOrder jobs = null;
 		try {
-			jobs = JobOrderLoader.load(new FileInputStream("wt40.txt"), 125, instanceIndex);
+			jobs = JobOrderLoader.load(new FileInputStream("data/wt40.txt"), 125, instanceIndex);
 			
 			System.out.println("Initial sequence:");
 			System.out.println(jobs.toString());
