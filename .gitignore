@@ -1,12 +1,13 @@
 # Local IDE configuration
-.idea/**/workspace.xml
-.idea/**/tasks.xml
+.idea/codeStyles/
 .idea/dictionaries/
 .idea/inspectionProfiles/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
 
 # Local IDE generated files
-.idea/**/uiDesigner.xml
 .idea/libraries/
+.idea/**/uiDesigner.xml
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
