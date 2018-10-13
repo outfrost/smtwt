@@ -7,7 +7,12 @@
 
 # Local IDE generated files
 .idea/libraries/
+.idea/**/compiler.xml
+.idea/**/misc.xml
+.idea/**/modules.xml
 .idea/**/uiDesigner.xml
+.idea/**/vcs.xml
+*.iml
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
@@ -17,9 +22,16 @@
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 
+# GNU nano
+*.swp
+
 # Compiled classes & packages
 out/
 target/
 
 # Execution results
 data/result/
+
+# OS bullshittery
+.DS_Store
+Thumbs.db
