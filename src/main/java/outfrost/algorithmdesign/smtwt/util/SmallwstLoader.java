@@ -34,9 +34,14 @@ public class SmallwstLoader {
 		for (int i = 0; i < jobCount; i++) {
 			Job job = new Job();
 			job.setId(i + 1);
-			String[] jobProperties = lines.get(i + 2).split(" ");
+			String[] jobProperties = lines.get(i + 2).split(" +");
 			job.setProcessingTime(Integer.parseInt(jobProperties[0]));
+			job.setWeight(Integer.parseInt(jobProperties[1]));
+			job.setDueTime(Integer.parseInt(jobProperties[2]));
+			result.add(job);
 		}
+		
+		return result;
 	}
 	
 }
