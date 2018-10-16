@@ -2,7 +2,7 @@ package outfrost.algorithmdesign.smtwt.test;
 
 import outfrost.algorithmdesign.smtwt.dynasearch.DynamicSearch;
 import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.util.JobOrderLoader;
+import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class DynamicSearchLive40Test extends Test {
 		
 		JobOrder jobs = null;
 		try {
-			jobs = JobOrderLoader.load(new FileInputStream("data/wt40.txt"), 125, instanceIndex);
+			jobs = OrlibLoader.load(new FileInputStream("data/wt40.txt"), 125, instanceIndex);
 			
 			System.out.println("Initial sequence:");
 			System.out.println(jobs.toString());

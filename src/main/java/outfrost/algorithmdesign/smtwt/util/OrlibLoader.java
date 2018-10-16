@@ -3,17 +3,18 @@ package outfrost.algorithmdesign.smtwt.util;
 import outfrost.algorithmdesign.smtwt.Job;
 import outfrost.algorithmdesign.smtwt.JobOrder;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class JobOrderLoader {
+public class OrlibLoader {
 	
 	public static JobOrder load(int instances, int instanceIndex) throws IOException, NumberFormatException {
 		return load(System.in, instances, instanceIndex);
+	}
+	
+	public static JobOrder load(String filePath, int instances, int instanceIndex) throws IOException, NumberFormatException {
+		return load(new FileInputStream(filePath), instances, instanceIndex);
 	}
 	
 	public static JobOrder load(InputStream stream, int instances, int instanceIndex) throws IOException, NumberFormatException {

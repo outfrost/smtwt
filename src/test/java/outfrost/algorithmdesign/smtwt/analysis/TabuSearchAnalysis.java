@@ -2,7 +2,7 @@ package outfrost.algorithmdesign.smtwt.analysis;
 
 import outfrost.algorithmdesign.smtwt.tabusearch.TabuSearch;
 import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.util.JobOrderLoader;
+import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class TabuSearchAnalysis implements Runnable {
 				System.out.println("Loading problem instance # " + (i + 1) + " ...");
 				
 				try {
-					JobOrder jobs = JobOrderLoader.load(new FileInputStream(dataPath), instanceCount, i);
+					JobOrder jobs = OrlibLoader.load(new FileInputStream(dataPath), instanceCount, i);
 					
 					if (jobs.size() == jobCount) {
 						System.out.println("Read " + jobs.size() + " jobs.");

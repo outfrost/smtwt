@@ -1,7 +1,7 @@
 package outfrost.algorithmdesign.smtwt.test;
 
 import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.util.JobOrderLoader;
+import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
 import outfrost.algorithmdesign.smtwt.tabusearch.TabuSearch;
 
 import java.io.FileInputStream;
@@ -16,7 +16,7 @@ public class TabuSearchLive40Test extends Test {
 		
 		JobOrder jobs = null;
 		try {
-			jobs = JobOrderLoader.load(new FileInputStream("data/wt40.txt"), 125, DynamicSearchLive40Test.instanceIndex);
+			jobs = OrlibLoader.load(new FileInputStream("data/wt40.txt"), 125, DynamicSearchLive40Test.instanceIndex);
 			
 			TabuSearch tabuSearch = new TabuSearch(jobs);
 			
