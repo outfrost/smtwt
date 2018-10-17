@@ -15,11 +15,11 @@ public class DynamicSearchLive40Test extends Test {
 	@Override
 	public void run() {
 		System.out.println("Running live data test with dynamic search...");
-		System.out.println("40-job instance # " + (instanceIndex + 1));
+		System.out.println("40-job ORLib instance # " + (instanceIndex + 1));
 		
 		JobOrder jobs = null;
 		try {
-			jobs = OrlibLoader.load(new FileInputStream("data/wt40.txt"), 125, instanceIndex);
+			jobs = OrlibLoader.load(new FileInputStream("data/orlib/wt40.txt"), 125, instanceIndex);
 			
 			System.out.println("Initial sequence:");
 			System.out.println(jobs.toString());
