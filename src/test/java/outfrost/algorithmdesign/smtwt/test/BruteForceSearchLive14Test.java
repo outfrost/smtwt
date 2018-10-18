@@ -34,19 +34,24 @@ public class BruteForceSearchLive14Test extends Test {
 				jobs.get(6),
 				jobs.get(12)
 			));
-			// TODO
+			
 			System.out.println("Initial sequence:");
 			System.out.println(jobs.toString());
 			System.out.println("Expected result:");
 			System.out.println(expectedOrder.toString());
 			
+			long startTime = System.nanoTime();
+			
 			jobs = BruteForceSearch.findSolution(jobs);
+			
+			long timeTaken = System.nanoTime() - startTime;
 			
 			System.out.println("Solution:");
 			System.out.println(jobs.toString());
+			System.out.println("Time taken: " + timeTaken + " ns");
 			
 			if (!jobs.equals(expectedOrder)) {
-				System.err.println("BruteForceSearch4JobTest: The result did not match the expected sequence");
+				System.err.println("BruteForceSearchLive14Test: The result did not match the expected sequence");
 			}
 		} catch (IOException e) {
 			System.err.println("Error loading problem instance: " + e.getMessage());
