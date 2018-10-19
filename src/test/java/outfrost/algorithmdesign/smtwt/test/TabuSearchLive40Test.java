@@ -12,11 +12,11 @@ public class TabuSearchLive40Test extends Test {
 	@Override
 	public void run() {
 		System.out.println("Running live data test with tabu search...");
-		System.out.println("40-job instance # " + (DynamicSearchLive40Test.instanceIndex + 1));
+		System.out.println("40-job ORLib instance # " + (DynamicSearchLive40Test.instanceIndex + 1));
 		
 		JobOrder jobs = null;
 		try {
-			jobs = OrlibLoader.load(new FileInputStream("data/wt40.txt"), 125, DynamicSearchLive40Test.instanceIndex);
+			jobs = OrlibLoader.load(new FileInputStream("data/orlib/wt40.txt"), 125, DynamicSearchLive40Test.instanceIndex);
 			
 			TabuSearch tabuSearch = new TabuSearch(jobs);
 			

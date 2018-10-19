@@ -151,7 +151,7 @@ public class DynamicSearchAnalysis implements Runnable {
 	}
 	
 	public static void main(String[] args) {
-		new DynamicSearchAnalysis("data/wt100.txt", 125, 100).run();
+		new DynamicSearchAnalysis("data/orlib/wt100.txt", 125, 100).run();
 	}
 	
 }

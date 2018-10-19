@@ -153,7 +153,7 @@ public class TabuSearchAnalysis implements Runnable {
 	}
 	
 	public static void main(String[] args) {
-		new TabuSearchAnalysis("data/wt40.txt", 125, 40).run();
+		new TabuSearchAnalysis("data/orlib/wt40.txt", 125, 40).run();
 	}
 	
 }
