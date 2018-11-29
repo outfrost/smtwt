@@ -3,23 +3,38 @@ package outfrost.algorithmdesign.smtwt.analysis;
 import outfrost.algorithmdesign.smtwt.dynasearch.DynamicSearch;
 import outfrost.algorithmdesign.smtwt.JobOrder;
 import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
+import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 public class DynamicSearchAnalysis implements Runnable {
 	
-	private final static int passes = 5;
+	private final int passes = 5;
+	private final LinkedList<JobOrder> instances = new LinkedList<>();
 	
-	private String dataPath;
-	private int instanceCount;
-	private int jobCount;
-	
-	public DynamicSearchAnalysis(String path, int instanceCount, int jobCount) {
-		dataPath = path;
-		this.instanceCount = instanceCount;
-		this.jobCount = jobCount;
+	public DynamicSearchAnalysis() {
+		try {
+			instances.add(SmallwstLoader.load("data/smallwst/data10.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data11.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data12.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data13.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data14.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data15.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data16.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data17.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data18.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data19.txt"));
+			instances.add(SmallwstLoader.load("data/smallwst/data20.txt"));
+			
+			for (int i = 0; i < 125; i++) {
+				instances.add(OrlibLoader.load("data/orlib/wt40.txt", 125, i));
+			}
+		} catch (IOException e) {
+			System.err.println("Could not load problem instances for analysis - " + e.getMessage());
+		}
 	}
 	
 	@Override
@@ -126,32 +141,8 @@ public class DynamicSearchAnalysis implements Runnable {
 		
 	}
 	
-	public String getDataPath() {
-		return dataPath;
-	}
-	
-	public void setDataPath(String dataPath) {
-		this.dataPath = dataPath;
-	}
-	
-	public int getInstanceCount() {
-		return instanceCount;
-	}
-	
-	public void setInstanceCount(int instanceCount) {
-		this.instanceCount = instanceCount;
-	}
-	
-	public int getJobCount() {
-		return jobCount;
-	}
-	
-	public void setJobCount(int jobCount) {
-		this.jobCount = jobCount;
-	}
-	
 	public static void main(String[] args) {
-		new DynamicSearchAnalysis("data/orlib/wt100.txt", 125, 100).run();
+		new DynamicSearchAnalysis().run();
 	}
 	
 }
