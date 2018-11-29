@@ -7,44 +7,39 @@ import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 
-public class DynamicSearchAnalysis implements Runnable {
+public class DynamicSearchAnalysis {
 	
-	private final int passes = 5;
-	private final LinkedList<JobOrder> instances = new LinkedList<>();
+	private static final int passes = 5;
+	//private final LinkedList<JobOrder> instances = new LinkedList<>();
 	
-	public DynamicSearchAnalysis() {
-		try {
-			instances.add(SmallwstLoader.load("data/smallwst/data10.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data11.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data12.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data13.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data14.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data15.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data16.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data17.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data18.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data19.txt"));
-			instances.add(SmallwstLoader.load("data/smallwst/data20.txt"));
-			
-			for (int i = 0; i < 125; i++) {
-				instances.add(OrlibLoader.load("data/orlib/wt40.txt", 125, i));
-			}
-		} catch (IOException e) {
-			System.err.println("Could not load problem instances for analysis - " + e.getMessage());
-		}
-	}
-	
-	@Override
-	public void run() {
+	public static void main(String[] args) {
+		
+		List<String> smallwstPaths = Arrays.asList(
+			"data/smallwst/data10.txt",
+			"data/smallwst/data11.txt",
+			"data/smallwst/data12.txt",
+			"data/smallwst/data13.txt",
+			"data/smallwst/data14.txt",
+			"data/smallwst/data15.txt",
+			"data/smallwst/data16.txt",
+			"data/smallwst/data17.txt",
+			"data/smallwst/data18.txt",
+			"data/smallwst/data19.txt",
+			"data/smallwst/data20.txt"
+		);
+		
+		String orlibPath = "data/orlib/wt40txt";
+		
 		int errorCount = 0;
 		
 		long meanTimeTaken = 0;
 		int timeSamples = 0;
-		LinkedHashMap<Integer, Long> instanceMeanTimes = new LinkedHashMap<>(instanceCount);
-		LinkedHashMap<Integer, Integer> instancePassCounts = new LinkedHashMap<>(instanceCount);
+		LinkedHashMap<Integer, Long> instanceSizeMeanTimes = new LinkedHashMap<>();
 		LinkedHashMap<Integer, Long> passMeanTimes = new LinkedHashMap<>(passes);
 		
 		for (int pass = 0; pass < passes; pass++) {
@@ -138,11 +133,6 @@ public class DynamicSearchAnalysis implements Runnable {
 			}
 		}
 		System.out.println();
-		
-	}
-	
-	public static void main(String[] args) {
-		new DynamicSearchAnalysis().run();
 	}
 	
 }
