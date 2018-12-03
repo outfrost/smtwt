@@ -86,7 +86,7 @@ public class DynamicSearchAnalysis {
 			
 			// smallWST
 			for (String path : smallwstPaths) {
-				System.out.println("Loading smallWST instance " + path + " ...");
+				System.out.println("Loading smallWST instance from " + path + " ...");
 				try {
 					JobOrder jobs = SmallwstLoader.load(path);
 					System.out.println("Read " + jobs.size() + " jobs.");
@@ -96,9 +96,10 @@ public class DynamicSearchAnalysis {
 				} catch (IOException | NumberFormatException e) {
 					System.err.println("Error loading problem instance: "
 					                   + e.getMessage());
-					e.printStackTrace();
 					errorCount++;
 				}
+				System.out.println();
+				
 			}
 			
 			// ORLib
@@ -112,12 +113,12 @@ public class DynamicSearchAnalysis {
 				
 				runAndBenchmark.accept(pass, jobs);
 				
-			} catch (IOException e) {
+			} catch (IOException | NumberFormatException e) {
 				System.err.println("Error loading problem instance: "
 				                   + e.getMessage());
-				e.printStackTrace();
 				errorCount++;
 			}
+			System.out.println();
 			
 		}
 		
