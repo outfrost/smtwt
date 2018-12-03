@@ -5,134 +5,152 @@ import outfrost.algorithmdesign.smtwt.JobOrder;
 import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
 import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 public class DynamicSearchAnalysis {
 	
 	private static final int passes = 5;
-	//private final LinkedList<JobOrder> instances = new LinkedList<>();
+	private static final int orlibInstancesPerFile = 125;
 	
 	public static void main(String[] args) {
 		
-		List<String> smallwstPaths = Arrays.asList(
-			"data/smallwst/data10.txt",
-			"data/smallwst/data11.txt",
-			"data/smallwst/data12.txt",
-			"data/smallwst/data13.txt",
-			"data/smallwst/data14.txt",
-			"data/smallwst/data15.txt",
-			"data/smallwst/data16.txt",
-			"data/smallwst/data17.txt",
-			"data/smallwst/data18.txt",
-			"data/smallwst/data19.txt",
-			"data/smallwst/data20.txt"
-		);
+		String[] smallwstPaths = {
+				"data/smallwst/data10.txt",
+				"data/smallwst/data11.txt",
+				"data/smallwst/data12.txt",
+				"data/smallwst/data13.txt",
+				"data/smallwst/data14.txt",
+				"data/smallwst/data15.txt",
+				"data/smallwst/data16.txt",
+				"data/smallwst/data17.txt",
+				"data/smallwst/data18.txt",
+				"data/smallwst/data19.txt",
+				"data/smallwst/data20.txt"
+		};
 		
-		String orlibPath = "data/orlib/wt40txt";
+		String orlibPath = "data/orlib/wt40.txt";
+		
+		Random r = new Random();
+		int[] orlibInstanceIndices = {
+				// Has to contain at least `passes` items
+				// in the range `[0; orlibInstancesPerFile)`
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile)
+		};
 		
 		int errorCount = 0;
 		
-		long meanTimeTaken = 0;
-		int timeSamples = 0;
+		long overallStartTime = System.nanoTime();
+		
 		LinkedHashMap<Integer, Long> instanceSizeMeanTimes = new LinkedHashMap<>();
-		LinkedHashMap<Integer, Long> passMeanTimes = new LinkedHashMap<>(passes);
+		LinkedHashMap<Integer, Long> passTimes = new LinkedHashMap<>(passes);
+		
+		BiConsumer<Integer, JobOrder> runAndBenchmark = (pass, jobs) -> {
+			long startTime, timeTaken;
+			startTime = System.nanoTime();
+			
+			DynamicSearch.sort(jobs);
+			DynamicSearch.findSolution(jobs);
+			
+			timeTaken = System.nanoTime() - startTime;
+			
+			System.out.println("Reached total weighted tardiness of "
+					                   + jobs.totalWeightedTardiness()
+					                   + " after " + timeTaken + " ns.");
+			
+			System.out.println("Solution:");
+			for (int i = 0; i < jobs.size(); i++) {
+				System.out.print(jobs.get(i).getId());
+				if (i < jobs.size() - 1) {
+					System.out.print(", ");
+				}
+			}
+			System.out.println();
+			
+			passTimes.compute(pass,
+					(k, v) -> (v == null)
+					          ? timeTaken
+					          : v + timeTaken);
+			instanceSizeMeanTimes.compute(jobs.size(),
+					(k, v) -> (v == null)
+					          ? timeTaken
+					          : (v * pass + timeTaken) / (pass + 1));
+		};
 		
 		for (int pass = 0; pass < passes; pass++) {
-			long passMeanTime = -1;
 			
-			for (int i = 0; i < instanceCount; i++) {
-				System.out.println("Loading problem instance # " + (i + 1) + " ...");
-				
+			// smallWST
+			for (String path : smallwstPaths) {
+				System.out.println("Loading smallWST instance " + path + " ...");
 				try {
-					JobOrder jobs = OrlibLoader.load(new FileInputStream(dataPath), instanceCount, i);
+					JobOrder jobs = SmallwstLoader.load(path);
+					System.out.println("Read " + jobs.size() + " jobs.");
 					
-					if (jobs.size() == jobCount) {
-						System.out.println("Read " + jobs.size() + " jobs.");
-						
-						long startTime = System.nanoTime();
-						
-						DynamicSearch.sort(jobs);
-						DynamicSearch.findSolution(jobs);
-						
-						long timeTaken = System.nanoTime() - startTime;
-						
-						System.out.println("Reached total weighted tardiness of " + jobs.totalWeightedTardiness() + " after " + timeTaken + " ns.");
-						
-						System.out.println("Solution:");
-						for (int k = 0; k < jobs.size() - 1; k++) {
-							System.out.print(jobs.get(k).getId() + ", ");
-						}
-						if (jobs.size() > 0) {
-							System.out.print(jobs.get(jobs.size() - 1).getId());
-						}
-						
-						System.out.println();
-						
-						if (timeSamples == 0) {
-							meanTimeTaken = timeTaken;
-						}
-						else {
-							meanTimeTaken = (meanTimeTaken * timeSamples + timeTaken) / (timeSamples + 1);
-						}
-						timeSamples++;
-						
-						if (passMeanTime == -1) {
-							passMeanTime = timeTaken;
-						}
-						else {
-							passMeanTime = (passMeanTime * pass + timeTaken) / (pass + 1);
-						}
-						
-						int instancePassCount = instancePassCounts.getOrDefault(i, 0);
-						instanceMeanTimes.compute(i, (instance, meanTime) -> (meanTime == null) ? timeTaken : (meanTime * instancePassCount + timeTaken) / (instancePassCount + 1));
-						instancePassCounts.compute(i, (instance, passCount) -> (passCount == null) ? 1 : passCount++);
-						
-					} else {
-						System.err.println("Instance size " + jobs.size() + " did not match the expected number of jobs.");
-						errorCount++;
-					}
-				} catch (IOException e) {
-					System.err.println("Error loading problem instance: " + e.getMessage());
+					runAndBenchmark.accept(pass, jobs);
+					
+				} catch (IOException | NumberFormatException e) {
+					System.err.println("Error loading problem instance: "
+					                   + e.getMessage());
+					e.printStackTrace();
 					errorCount++;
-				} finally {
-					System.out.println();
 				}
 			}
 			
-			passMeanTimes.put(pass, passMeanTime);
+			// ORLib
+			int index = orlibInstanceIndices[pass];
+			
+			System.out.println("Loading ORLib instance # " + (index + 1)
+			                   + " from " + orlibPath + " ...");
+			try {
+				JobOrder jobs = OrlibLoader.load(orlibPath, orlibInstancesPerFile, index);
+				System.out.println("Read " + jobs.size() + " jobs.");
+				
+				runAndBenchmark.accept(pass, jobs);
+				
+			} catch (IOException e) {
+				System.err.println("Error loading problem instance: "
+				                   + e.getMessage());
+				e.printStackTrace();
+				errorCount++;
+			}
+			
 		}
 		
-		System.out.println("Dynamic search execution on " + instanceCount + " instances of " + jobCount + " jobs in " + dataPath + " finished.");
+		long overallTimeTaken = System.nanoTime() - overallStartTime;
+		
+		System.out.println("Completed "
+		                   + passes + " passes of dynamic search on "
+		                   + (smallwstPaths.length + 1)
+		                   + " sizes of instances");
 		System.out.println("( " + errorCount + " errors )");
+		System.out.println();
 		
 		System.out.println("Statistics:");
-		System.out.println("Average search time in " + timeSamples + " samples was " + meanTimeTaken / 1000 + " µs.");
-		System.out.println("Average search time by instance, in microseconds:");
-		
-		for (int i = 0; i < instanceCount; i++) {
-			Long instanceMeanTime = instanceMeanTimes.get(i);
-			System.out.print(i + " -> " + ((instanceMeanTime != null) ? (instanceMeanTime / 1000) : instanceMeanTime) + "; ");
-			if (i % 10 == 9) {
-				System.out.println();
-			}
-		}
 		System.out.println();
 		
-		System.out.println("Average search time by pass, in microseconds:");
-		
-		for (int i = 0; i < passes; i++) {
-			Long passMeanTime = passMeanTimes.get(i);
-			System.out.print(i + " -> " + ((passMeanTime != null) ? (passMeanTime / 1000) : passMeanTime) + "; ");
-			if (i % 10 == 9) {
-				System.out.println();
-			}
-		}
+		System.out.println("Average search time per instance size");
+		instanceSizeMeanTimes.forEach((size, meanTime) -> {
+			System.out.println(size + ": " + meanTime + " ns");
+		});
 		System.out.println();
+		
+		System.out.println("Total time spent in dynamic search each pass");
+		passTimes.forEach((pass, time) -> {
+			System.out.println(pass + ": " + time + " ns");
+		});
+		System.out.println();
+		
+		System.out.println("Total analysis time: " + overallTimeTaken + " ns");
+		long sumPassTimes = 0L;
+		for (long time : passTimes.values()) {
+			sumPassTimes += time;
+		}
+		System.out.println("IO and statistics overhead: " + (overallTimeTaken - sumPassTimes) + " ns");
 	}
 	
 }
