@@ -39,23 +39,9 @@ public class OrlibLoader {
 			dueTimes.addAll(Arrays.asList(lines.get(i + (instanceLineCount / 3) * 2).split("( )+")));
 		}
 		
-		for (int i = 0; i < processingTimes.size(); i++) {
-			if (processingTimes.get(i).equals("")) {
-				processingTimes.remove(i);
-			}
-		}
-		
-		for (int i = 0; i < weights.size(); i++) {
-			if (weights.get(i).equals("")) {
-				weights.remove(i);
-			}
-		}
-		
-		for (int i = 0; i < dueTimes.size(); i++) {
-			if (dueTimes.get(i).equals("")) {
-				dueTimes.remove(i);
-			}
-		}
+		processingTimes.removeIf(s -> s.equals(""));
+		weights.removeIf(s -> s.equals(""));
+		dueTimes.removeIf(s -> s.equals(""));
 		
 		if (processingTimes.size() != weights.size() || processingTimes.size() != dueTimes.size()) {
 			throw new IOException("The numbers of entries for processing times, weights and/or due times did not match up.");
@@ -64,12 +50,19 @@ public class OrlibLoader {
 		JobOrder result = new JobOrder();
 		
 		for (int i = 0; i < processingTimes.size(); i++) {
-			Job job = new Job();
-			job.setId(i + 1);
-			job.setProcessingTime(Integer.parseInt(processingTimes.get(i)));
-			job.setWeight(Integer.parseInt(weights.get(i)));
-			job.setDueTime(Integer.parseInt(dueTimes.get(i)));
-			result.add(job);
+			try {
+				Job job = new Job();
+				job.setId(i + 1);
+				job.setProcessingTime(Integer.parseInt(processingTimes.get(i)));
+				job.setWeight(Integer.parseInt(weights.get(i)));
+				job.setDueTime(Integer.parseInt(dueTimes.get(i)));
+				result.add(job);
+			} catch (NumberFormatException e) {
+				System.err.println(e.getClass().getName()
+				                   + " in ORLib instance file");
+				System.err.println("on line " + (i + 3));
+				throw e;
+			}
 		}
 		
 		return result;
