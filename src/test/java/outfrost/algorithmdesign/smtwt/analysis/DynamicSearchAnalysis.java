@@ -11,7 +11,8 @@ import java.util.function.BiConsumer;
 
 public class DynamicSearchAnalysis {
 	
-	private static final int passes = 5;
+	private static final int passes = 25;
+	private static final int warmupPasses = 5;
 	private static final int orlibInstancesPerFile = 125;
 	
 	public static void main(String[] args) {
@@ -36,6 +37,26 @@ public class DynamicSearchAnalysis {
 		int[] orlibInstanceIndices = {
 				// Has to contain at least `passes` items
 				// in the range `[0; orlibInstancesPerFile)`
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
 				r.nextInt(orlibInstancesPerFile),
 				r.nextInt(orlibInstancesPerFile),
 				r.nextInt(orlibInstancesPerFile),
@@ -71,6 +92,10 @@ public class DynamicSearchAnalysis {
 				}
 			}
 			System.out.println();
+			
+			if (pass < warmupPasses) {
+				return;
+			}
 			
 			passTimes.compute(pass,
 					(k, v) -> (v == null)
@@ -127,7 +152,7 @@ public class DynamicSearchAnalysis {
 		System.out.println("Completed "
 		                   + passes + " passes of dynamic search on "
 		                   + (smallwstPaths.length + 1)
-		                   + " sizes of instances");
+		                   + " instance sizes");
 		System.out.println("( " + errorCount + " errors )");
 		System.out.println();
 		
