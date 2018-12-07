@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 public class OrlibLoader {
 	
+	private static final boolean verbose = false;
+	
 	public static JobOrder load(int instances, int instanceIndex) throws IOException, NumberFormatException {
 		return load(System.in, instances, instanceIndex);
 	}
@@ -58,9 +60,9 @@ public class OrlibLoader {
 				job.setDueTime(Integer.parseInt(dueTimes.get(i)));
 				result.add(job);
 			} catch (NumberFormatException e) {
-				System.err.println(e.getClass().getName()
+				if (verbose) System.err.println(e.getClass().getName()
 				                   + " in ORLib instance file");
-				System.err.println("on line " + (i + 3));
+				if (verbose) System.err.println("on line " + (i + 3));
 				throw e;
 			}
 		}

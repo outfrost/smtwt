@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class SmallwstLoader {
 	
+	private static final boolean verbose = false;
+	
 	public static JobOrder load() throws IOException, NumberFormatException {
 		return load(System.in);
 	}
@@ -32,14 +34,14 @@ public class SmallwstLoader {
 		}
 		
 		String instanceName = lines.get(0);
-		System.out.println("Instance \"" + instanceName + "\"");
+		if (verbose) System.out.println("Instance \"" + instanceName + "\"");
 		
 		int jobCount;
 		try {
 			jobCount = Integer.parseInt(lines.get(1));
 		} catch (NumberFormatException e) {
-			System.err.println(e.getClass().getName()
-			                   + " in \"" + instanceName + "\" on line 2");
+			if (verbose) System.err.println(e.getClass().getName()
+			                                + " in \"" + instanceName + "\" on line 2");
 			throw e;
 		}
 		
@@ -57,9 +59,9 @@ public class SmallwstLoader {
 				job.setDueTime(Integer.parseInt(jobProperties[2]));
 				result.add(job);
 			} catch (NumberFormatException e) {
-				System.err.println(e.getClass().getName()
-				                   + " in \"" + instanceName
-				                   + "\" on line " + (i + 3));
+				if (verbose) System.err.println(e.getClass().getName()
+				                                + " in \"" + instanceName
+				                                + "\" on line " + (i + 3));
 				throw e;
 			}
 		}

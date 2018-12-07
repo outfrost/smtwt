@@ -11,9 +11,11 @@ import java.util.function.BiConsumer;
 
 public class DynamicSearchAnalysis {
 	
-	private static final int passes = 25;
+	private static final int passes = 125;
 	private static final int warmupPasses = 5;
 	private static final int orlibInstancesPerFile = 125;
+	
+	private static final boolean verbose = false;
 	
 	public static void main(String[] args) {
 		
@@ -34,7 +36,7 @@ public class DynamicSearchAnalysis {
 		String orlibPath = "data/orlib/wt40.txt";
 		
 		Random r = new Random();
-		int[] orlibInstanceIndices = {
+		int[] orlibInstanceIndices = new int[orlibInstancesPerFile];/*{
 				// Has to contain at least `passes` items
 				// in the range `[0; orlibInstancesPerFile)`
 				r.nextInt(orlibInstancesPerFile),
@@ -62,7 +64,10 @@ public class DynamicSearchAnalysis {
 				r.nextInt(orlibInstancesPerFile),
 				r.nextInt(orlibInstancesPerFile),
 				r.nextInt(orlibInstancesPerFile)
-		};
+		};*/
+		for (int i = 0; i < orlibInstanceIndices.length; i++) {
+			orlibInstanceIndices[i] = i;
+		}
 		
 		int errorCount = 0;
 		
@@ -80,18 +85,20 @@ public class DynamicSearchAnalysis {
 			
 			timeTaken = System.nanoTime() - startTime;
 			
-			System.out.println("Reached total weighted tardiness of "
-					                   + jobs.totalWeightedTardiness()
-					                   + " after " + timeTaken + " ns.");
-			
-			System.out.println("Solution:");
-			for (int i = 0; i < jobs.size(); i++) {
-				System.out.print(jobs.get(i).getId());
-				if (i < jobs.size() - 1) {
-					System.out.print(", ");
+			if (verbose) {
+				System.out.println("Reached total weighted tardiness of "
+				                   + jobs.totalWeightedTardiness()
+				                   + " after " + timeTaken + " ns.");
+				
+				System.out.println("Solution:");
+				for (int i = 0; i < jobs.size(); i++) {
+					System.out.print(jobs.get(i).getId());
+					if (i < jobs.size() - 1) {
+						System.out.print(", ");
+					}
 				}
+				System.out.println();
 			}
-			System.out.println();
 			
 			if (pass < warmupPasses) {
 				return;
@@ -111,39 +118,39 @@ public class DynamicSearchAnalysis {
 			
 			// smallWST
 			for (String path : smallwstPaths) {
-				System.out.println("Loading smallWST instance from " + path + " ...");
+				if (verbose) System.out.println("Loading smallWST instance from " + path + " ...");
 				try {
 					JobOrder jobs = SmallwstLoader.load(path);
-					System.out.println("Read " + jobs.size() + " jobs.");
+					if (verbose) System.out.println("Read " + jobs.size() + " jobs.");
 					
 					runAndBenchmark.accept(pass, jobs);
 					
 				} catch (IOException | NumberFormatException e) {
-					System.err.println("Error loading problem instance: "
-					                   + e.getMessage());
+					if (verbose) System.err.println("Error loading problem instance: "
+					                                + e.getMessage());
 					errorCount++;
 				}
-				System.out.println();
+				if (verbose) System.out.println();
 				
 			}
 			
 			// ORLib
 			int index = orlibInstanceIndices[pass];
 			
-			System.out.println("Loading ORLib instance # " + (index + 1)
+			if (verbose) System.out.println("Loading ORLib instance # " + (index + 1)
 			                   + " from " + orlibPath + " ...");
 			try {
 				JobOrder jobs = OrlibLoader.load(orlibPath, orlibInstancesPerFile, index);
-				System.out.println("Read " + jobs.size() + " jobs.");
+				if (verbose) System.out.println("Read " + jobs.size() + " jobs.");
 				
 				runAndBenchmark.accept(pass, jobs);
 				
 			} catch (IOException | NumberFormatException e) {
-				System.err.println("Error loading problem instance: "
-				                   + e.getMessage());
+				if (verbose) System.err.println("Error loading problem instance: "
+				                                + e.getMessage());
 				errorCount++;
 			}
-			System.out.println();
+			if (verbose) System.out.println();
 			
 		}
 		
