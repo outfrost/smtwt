@@ -5,20 +5,20 @@ import outfrost.algorithmdesign.smtwt.JobOrder;
 
 import java.util.LinkedList;
 
-public class BruteForceSearch {
+public class BruteForce {
 	
 	private JobOrder jobs;
 	private JobOrder bestOrder;
 	private int bestWeightedTardiness;
 	
-	public BruteForceSearch(JobOrder jobs) {
+	public BruteForce(JobOrder jobs) {
 		this.jobs = jobs;
 		bestOrder = new JobOrder(jobs);
 		bestWeightedTardiness = bestOrder.totalWeightedTardiness();
 	}
 	
 	public static JobOrder findSolution(JobOrder jobs) {
-		return new BruteForceSearch(jobs).findSolution();
+		return new BruteForce(jobs).findSolution();
 	}
 	
 	public JobOrder findSolution() {

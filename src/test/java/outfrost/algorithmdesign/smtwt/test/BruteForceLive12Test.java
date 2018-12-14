@@ -1,18 +1,17 @@
 package outfrost.algorithmdesign.smtwt.test;
 
-import outfrost.algorithmdesign.smtwt.Job;
 import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.bruteforce.BruteForceSearch;
+import outfrost.algorithmdesign.smtwt.bruteforce.BruteForce;
 import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class BruteForceSearchLive12Test extends Test {
+public class BruteForceLive12Test extends Test {
 	
 	@Override
 	public void run() {
-		System.out.println("Running live data test with brute force search...");
+		System.out.println("Running live data test with brute force...");
 		System.out.println("12-job smallWST instance");
 		
 		try {
@@ -40,7 +39,7 @@ public class BruteForceSearchLive12Test extends Test {
 			
 			long startTime = System.nanoTime();
 			
-			jobs = BruteForceSearch.findSolution(jobs);
+			jobs = BruteForce.findSolution(jobs);
 			
 			long timeTaken = System.nanoTime() - startTime;
 			
@@ -49,7 +48,7 @@ public class BruteForceSearchLive12Test extends Test {
 			System.out.println("Time taken: " + timeTaken + " ns");
 			
 			if (!jobs.equals(expectedOrder)) {
-				System.err.println("BruteForceSearchLive12Test: The result did not match the expected sequence");
+				System.err.println("BruteForceLive12Test: The result did not match the expected sequence");
 			}
 		} catch (IOException e) {
 			System.err.println("Error loading problem instance: " + e.getMessage());

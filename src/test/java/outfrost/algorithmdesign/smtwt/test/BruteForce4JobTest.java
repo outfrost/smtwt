@@ -2,16 +2,15 @@ package outfrost.algorithmdesign.smtwt.test;
 
 import outfrost.algorithmdesign.smtwt.Job;
 import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.bruteforce.BruteForceSearch;
-import outfrost.algorithmdesign.smtwt.dynasearch.DynamicSearch;
+import outfrost.algorithmdesign.smtwt.bruteforce.BruteForce;
 
 import java.util.Arrays;
 
-public class BruteForceSearch4JobTest extends Test {
+public class BruteForce4JobTest extends Test {
 	
 	@Override
 	public void run() {
-		System.out.println("Running trivial 4-job test with brute force search...");
+		System.out.println("Running trivial 4-job test with brute force...");
 		
 		/*
 		j		processing_time		weight		due_after
@@ -34,13 +33,13 @@ public class BruteForceSearch4JobTest extends Test {
 		System.out.println("Expected result:");
 		System.out.println(expectedOrder.toString());
 		
-		jobs = BruteForceSearch.findSolution(jobs);
+		jobs = BruteForce.findSolution(jobs);
 		
 		System.out.println("Solution:");
 		System.out.println(jobs.toString());
 		
 		if(!jobs.equals(expectedOrder)) {
-			System.err.println("BruteForceSearch4JobTest: The result did not match the expected sequence");
+			System.err.println("BruteForce4JobTest: The result did not match the expected sequence");
 		}
 		
 		System.out.println();
