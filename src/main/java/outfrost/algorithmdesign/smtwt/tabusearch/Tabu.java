@@ -9,10 +9,6 @@ public class Tabu implements Serializable {
 	private Job job1;
 	private Job job2;
 	
-	public Tabu() {
-	
-	}
-	
 	public Tabu(Job job1, Job job2) {
 		setJob1(job1);
 		setJob2(job2);
