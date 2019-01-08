@@ -16,7 +16,7 @@ public class TabuSearch {
 	}
 	
 	public static void findSolution(JobOrder jobs) {
-		TabuList tabuList = new TabuList(16);
+		TabuList tabuList = new TabuList(32);
 		boolean betterSolutionFound = true;
 		boolean overrideTabu = false;
 		
