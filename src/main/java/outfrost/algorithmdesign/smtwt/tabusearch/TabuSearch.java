@@ -15,28 +15,28 @@ public class TabuSearch {
 		jobs.sort(initialHeuristic);
 	}
 	
-	public static void findSolution(JobOrder jobs) {
+	public static JobOrder findSolution(JobOrder jobs) {
+		JobOrder currentSolution = new JobOrder(jobs);
+		int currentSolutionTWT = currentSolution.totalWeightedTardiness();
 		TabuList tabuList = new TabuList(32);
-		boolean betterSolutionFound = true;
-		boolean overrideTabu = false;
+		int turnsWithoutImprovement = 0;
 		
-		while (betterSolutionFound || overrideTabu) {
-			int bestWeightedTardiness = jobs.totalWeightedTardiness();
+		while (turnsWithoutImprovement < 64) {
+			int bestWeightedTardiness = 0;
 			int bestSwapA = 0;
 			int bestSwapB = 0;
-			betterSolutionFound = false;
 			
 			for (int i = 0; i < jobs.size(); i++) {
 				for (int k = i + 1; k < jobs.size(); k++) {
-					if (overrideTabu || !tabuList.contains(new Tabu(jobs.get(i), jobs.get(k)))) {
+					if (!tabuList.contains(new Tabu(jobs.get(i), jobs.get(k)))) {
 						Collections.swap(jobs, i, k);
 						
 						int newWeightedTardiness = jobs.totalWeightedTardiness();
-						if (newWeightedTardiness < bestWeightedTardiness) {
+						if (newWeightedTardiness < bestWeightedTardiness
+						    || (bestSwapA == 0 && bestSwapB == 0)) {
 							bestWeightedTardiness = newWeightedTardiness;
 							bestSwapA = i;
 							bestSwapB = k;
-							betterSolutionFound = true;
 						}
 						
 						Collections.swap(jobs, i, k);
@@ -44,15 +44,22 @@ public class TabuSearch {
 				}
 			}
 			
-			if (betterSolutionFound) {
+			if (bestSwapA != 0 || bestSwapB != 0) {
 				Collections.swap(jobs, bestSwapA, bestSwapB);
-				tabuList.add(new Tabu(jobs.get(bestSwapA), jobs.get(bestSwapB)));
-				overrideTabu = false;
+				if (bestWeightedTardiness < currentSolutionTWT) {
+					currentSolution = new JobOrder(jobs);
+					currentSolutionTWT = currentSolution.totalWeightedTardiness();
+					turnsWithoutImprovement = 0;
+				}
+				else {
+					turnsWithoutImprovement++;
+				}
 			}
-			else {
-				overrideTabu = !overrideTabu;
-			}
+			
+			tabuList.add(new Tabu(jobs.get(bestSwapA), jobs.get(bestSwapB)));
 		}
+		
+		return currentSolution;
 	}
 	
 }
