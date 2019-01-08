@@ -15,7 +15,7 @@ public class TabuSearch {
 		jobs.sort(initialHeuristic);
 	}
 	
-	public void findSolution(JobOrder jobs) {
+	public static void findSolution(JobOrder jobs) {
 		TabuList tabuList = new TabuList(16);
 		boolean betterSolutionFound = true;
 		boolean overrideTabu = false;
