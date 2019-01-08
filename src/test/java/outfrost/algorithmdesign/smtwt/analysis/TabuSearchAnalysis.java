@@ -44,12 +44,10 @@ public class TabuSearchAnalysis implements Runnable {
 					if (jobs.size() == jobCount) {
 						System.out.println("Read " + jobs.size() + " jobs.");
 						
-						TabuSearch tabuSearch = new TabuSearch(jobs);
-						
 						long startTime = System.nanoTime();
 						
-						tabuSearch.sort();
-						tabuSearch.findSolution();
+						TabuSearch.sort(jobs);
+						TabuSearch.findSolution(jobs);
 						
 						long timeTaken = System.nanoTime() - startTime;
 						
@@ -103,23 +101,23 @@ public class TabuSearchAnalysis implements Runnable {
 		System.out.println("( " + errorCount + " errors )");
 		
 		System.out.println("Statistics:");
-		System.out.println("Average search time in " + timeSamples + " samples was " + meanTimeTaken / 1000 + " µs.");
-		System.out.println("Average search time by instance, in microseconds:");
+		System.out.println("Average search time in " + timeSamples + " samples was " + meanTimeTaken + " ns.");
+		System.out.println("Average search time by instance, in nanoseconds:");
 		
 		for (int i = 0; i < instanceCount; i++) {
 			Long instanceMeanTime = instanceMeanTimes.get(i);
-			System.out.print(i + " -> " + ((instanceMeanTime != null) ? (instanceMeanTime / 1000) : instanceMeanTime) + "; ");
+			System.out.print(i + " -> " + ((instanceMeanTime != null) ? instanceMeanTime : "null") + "; ");
 			if (i % 10 == 9) {
 				System.out.println();
 			}
 		}
 		System.out.println();
 		
-		System.out.println("Average search time by pass, in microseconds:");
+		System.out.println("Average search time by pass, in nanoseconds:");
 		
 		for (int i = 0; i < passes; i++) {
 			Long passMeanTime = passMeanTimes.get(i);
-			System.out.print(i + " -> " + ((passMeanTime != null) ? (passMeanTime / 1000) : passMeanTime) + "; ");
+			System.out.print(i + " -> " + ((passMeanTime != null) ? passMeanTime : "null") + "; ");
 			if (i % 10 == 9) {
 				System.out.println();
 			}
