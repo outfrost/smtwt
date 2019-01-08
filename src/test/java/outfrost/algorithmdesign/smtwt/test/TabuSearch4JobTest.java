@@ -26,8 +26,6 @@ public class TabuSearch4JobTest extends Test {
 		Job job3 = new Job(3, 46, 127, 10);
 		
 		JobOrder jobs = new JobOrder(Arrays.asList(job0, job1, job2, job3));
-		TabuSearch tabuSearch = new TabuSearch(jobs);
-		
 		JobOrder expectedOrder = new JobOrder(Arrays.asList(job0, job1, job3, job2));
 		
 		System.out.println("Initial sequence:");
@@ -35,16 +33,16 @@ public class TabuSearch4JobTest extends Test {
 		System.out.println("Expected sequence after initial heuristic sort:");
 		System.out.println(expectedOrder.toString());
 		
-		tabuSearch.sort();
+		TabuSearch.sort(jobs);
 		
 		System.out.println("After initial heuristic sort:");
 		System.out.println(jobs.toString());
 		
 		if(!jobs.equals(expectedOrder)) {
-			System.err.println("DynamicSearch4JobTest: The result of initial heuristic sort did not match the expected sequence.");
+			System.err.println("TabuSearch4JobTest: The result of initial heuristic sort did not match the expected sequence.");
 		}
 		
-		tabuSearch.findSolution();
+		TabuSearch.findSolution(jobs);
 		
 		System.out.println("Solution:");
 		System.out.println(jobs.toString());

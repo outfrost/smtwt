@@ -17,9 +17,8 @@ public class DynamicSearchLive40Test extends Test {
 		System.out.println("Running live data test with dynamic search...");
 		System.out.println("40-job ORLib instance # " + (instanceIndex + 1));
 		
-		JobOrder jobs = null;
 		try {
-			jobs = OrlibLoader.load(new FileInputStream("data/orlib/wt40.txt"), 125, instanceIndex);
+			JobOrder jobs = OrlibLoader.load("data/orlib/wt40.txt", 125, instanceIndex);
 			
 			System.out.println("Initial sequence:");
 			System.out.println(jobs.toString());

@@ -14,23 +14,20 @@ public class TabuSearchLive40Test extends Test {
 		System.out.println("Running live data test with tabu search...");
 		System.out.println("40-job ORLib instance # " + (DynamicSearchLive40Test.instanceIndex + 1));
 		
-		JobOrder jobs = null;
 		try {
-			jobs = OrlibLoader.load(new FileInputStream("data/orlib/wt40.txt"), 125, DynamicSearchLive40Test.instanceIndex);
-			
-			TabuSearch tabuSearch = new TabuSearch(jobs);
+			JobOrder jobs = OrlibLoader.load("data/orlib/wt40.txt", 125, DynamicSearchLive40Test.instanceIndex);
 			
 			System.out.println("Initial sequence:");
 			System.out.println(jobs.toString());
 			
-			tabuSearch.sort();
+			TabuSearch.sort(jobs);
 			
 			System.out.println("After initial heuristic sort:");
 			System.out.println(jobs.toString());
 			
 			long startTime = System.nanoTime();
 			
-			tabuSearch.findSolution();
+			TabuSearch.findSolution(jobs);
 			
 			long timeTaken = System.nanoTime() - startTime;
 			
