@@ -7,9 +7,9 @@ import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class BruteForceLive12Test extends Test {
+public class BruteForceLive12Test /*extends Test*/ { // yeah let's not
 	
-	@Override
+	//@Override
 	public void run() {
 		System.out.println("Running live data test with brute force...");
 		System.out.println("12-job smallWST instance");
