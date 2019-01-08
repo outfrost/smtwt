@@ -34,10 +34,11 @@ public class TabuList extends LinkedList<Tabu> {
 	@Override
 	public boolean add(Tabu tabu) {
 		if (tabu != null && !contains(tabu)) {
-			while (size() >= capacity) {
+			boolean result = super.add(tabu);
+			while (size() > capacity) {
 				remove(); // removes first
 			}
-			return super.add(tabu);
+			return result;
 		}
 		return false;
 	}
