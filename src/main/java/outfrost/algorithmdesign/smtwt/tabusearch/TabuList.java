@@ -6,10 +6,6 @@ public class TabuList extends LinkedList<Tabu> {
 	
 	private final int capacity;
 	
-	public TabuList() {
-		this(16);
-	}
-	
 	public TabuList(int capacity) {
 		super();
 		this.capacity = capacity;
@@ -24,11 +20,12 @@ public class TabuList extends LinkedList<Tabu> {
 	}
 	
 	public boolean contains(Tabu value) {
-		if (value != null) {
-			for (Tabu tabu : this) {
-				if (tabu.equals(value)) {
-					return true;
-				}
+		if (value == null){
+			return false;
+		}
+		for (Tabu tabu : this) {
+			if (tabu.equals(value)) {
+				return true;
 			}
 		}
 		return false;
@@ -38,7 +35,7 @@ public class TabuList extends LinkedList<Tabu> {
 	public boolean add(Tabu tabu) {
 		if (tabu != null && !contains(tabu)) {
 			while (size() >= capacity) {
-				remove();
+				remove(); // removes first
 			}
 			return super.add(tabu);
 		}
