@@ -17,11 +17,13 @@ public class TabuSearch {
 	
 	public static JobOrder findSolution(JobOrder jobs) {
 		JobOrder currentSolution = new JobOrder(jobs);
-		int currentSolutionTWT = currentSolution.totalWeightedTardiness();
-		TabuList tabuList = new TabuList(32);
+		int currentSolutionTardiness = currentSolution.totalWeightedTardiness();
+		TabuList tabuList = new TabuList(4);
 		int turnsWithoutImprovement = 0;
 		
-		while (turnsWithoutImprovement < 64) {
+		while (turnsWithoutImprovement < 32) {
+			turnsWithoutImprovement++;
+			
 			int bestWeightedTardiness = 0;
 			int bestSwapA = 0;
 			int bestSwapB = 0;
@@ -46,13 +48,10 @@ public class TabuSearch {
 			
 			if (bestSwapA != 0 || bestSwapB != 0) {
 				Collections.swap(jobs, bestSwapA, bestSwapB);
-				if (bestWeightedTardiness < currentSolutionTWT) {
+				if (bestWeightedTardiness < currentSolutionTardiness) {
 					currentSolution = new JobOrder(jobs);
-					currentSolutionTWT = currentSolution.totalWeightedTardiness();
+					currentSolutionTardiness = bestWeightedTardiness;
 					turnsWithoutImprovement = 0;
-				}
-				else {
-					turnsWithoutImprovement++;
 				}
 			}
 			
