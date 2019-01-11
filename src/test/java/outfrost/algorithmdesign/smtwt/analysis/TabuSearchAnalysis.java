@@ -3,155 +3,168 @@ package outfrost.algorithmdesign.smtwt.analysis;
 import outfrost.algorithmdesign.smtwt.tabusearch.TabuSearch;
 import outfrost.algorithmdesign.smtwt.JobOrder;
 import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
+import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.Random;
+import java.util.function.BiConsumer;
 
-public class TabuSearchAnalysis implements Runnable {
+public class TabuSearchAnalysis {
 	
-	private final static int passes = 5;
+	private static final int passes = 125;
+	private static final int warmupPasses = 5;
+	private static final int orlibInstancesPerFile = 125;
 	
-	private String dataPath;
-	private int instanceCount;
-	private int jobCount;
-	
-	public TabuSearchAnalysis(String path, int instanceCount, int jobCount) {
-		dataPath = path;
-		this.instanceCount = instanceCount;
-		this.jobCount = jobCount;
-	}
-	
-	@Override
-	public void run() {
-		int errorCount = 0;
-		
-		long meanTimeTaken = 0;
-		int timeSamples = 0;
-		LinkedHashMap<Integer, Long> instanceMeanTimes = new LinkedHashMap<>(instanceCount);
-		LinkedHashMap<Integer, Integer> instancePassCounts = new LinkedHashMap<>(instanceCount);
-		LinkedHashMap<Integer, Long> passMeanTimes = new LinkedHashMap<>(passes);
-		
-		for (int pass = 0; pass < passes; pass++) {
-			long passMeanTime = -1;
-			
-			for (int i = 0; i < instanceCount; i++) {
-				System.out.println("Loading problem instance # " + (i + 1) + " ...");
-				
-				try {
-					JobOrder jobs = OrlibLoader.load(new FileInputStream(dataPath), instanceCount, i);
-					
-					if (jobs.size() == jobCount) {
-						System.out.println("Read " + jobs.size() + " jobs.");
-						
-						long startTime = System.nanoTime();
-						
-						TabuSearch.sort(jobs);
-						TabuSearch.findSolution(jobs);
-						
-						long timeTaken = System.nanoTime() - startTime;
-						
-						System.out.println("Reached total weighted tardiness of " + jobs.totalWeightedTardiness() + " after " + timeTaken + " ns.");
-						
-						System.out.println("Solution:");
-						for (int k = 0; k < jobs.size() - 1; k++) {
-							System.out.print(jobs.get(k).getId() + ", ");
-						}
-						if (jobs.size() > 0) {
-							System.out.print(jobs.get(jobs.size() - 1).getId());
-						}
-						
-						System.out.println();
-						
-						if (timeSamples == 0) {
-							meanTimeTaken = timeTaken;
-						}
-						else {
-							meanTimeTaken = (meanTimeTaken * timeSamples + timeTaken) / (timeSamples + 1);
-						}
-						timeSamples++;
-						
-						if (passMeanTime == -1) {
-							passMeanTime = timeTaken;
-						}
-						else {
-							passMeanTime = (passMeanTime * pass + timeTaken) / (pass + 1);
-						}
-						
-						int instancePassCount = instancePassCounts.getOrDefault(i, 0);
-						instanceMeanTimes.compute(i, (instance, meanTime) -> (meanTime == null) ? timeTaken : (meanTime * instancePassCount + timeTaken) / (instancePassCount + 1));
-						instancePassCounts.compute(i, (instance, passCount) -> (passCount == null) ? 1 : passCount++);
-						
-					} else {
-						System.err.println("Instance size " + jobs.size() + " did not match the expected number of jobs.");
-						errorCount++;
-					}
-				} catch (IOException e) {
-					System.err.println("Error loading problem instance: " + e.getMessage());
-					errorCount++;
-				} finally {
-					System.out.println();
-				}
-			}
-			
-			passMeanTimes.put(pass, passMeanTime);
-		}
-		
-		System.out.println("Tabu search execution on " + instanceCount + " instances of " + jobCount + " jobs in " + dataPath + " finished.");
-		System.out.println("( " + errorCount + " errors )");
-		
-		System.out.println("Statistics:");
-		System.out.println("Average search time in " + timeSamples + " samples was " + meanTimeTaken + " ns.");
-		System.out.println("Average search time by instance, in nanoseconds:");
-		
-		for (int i = 0; i < instanceCount; i++) {
-			Long instanceMeanTime = instanceMeanTimes.get(i);
-			System.out.print(i + " -> " + ((instanceMeanTime != null) ? instanceMeanTime : "null") + "; ");
-			if (i % 10 == 9) {
-				System.out.println();
-			}
-		}
-		System.out.println();
-		
-		System.out.println("Average search time by pass, in nanoseconds:");
-		
-		for (int i = 0; i < passes; i++) {
-			Long passMeanTime = passMeanTimes.get(i);
-			System.out.print(i + " -> " + ((passMeanTime != null) ? passMeanTime : "null") + "; ");
-			if (i % 10 == 9) {
-				System.out.println();
-			}
-		}
-		System.out.println();
-		
-	}
-	
-	public String getDataPath() {
-		return dataPath;
-	}
-	
-	public void setDataPath(String dataPath) {
-		this.dataPath = dataPath;
-	}
-	
-	public int getInstanceCount() {
-		return instanceCount;
-	}
-	
-	public void setInstanceCount(int instanceCount) {
-		this.instanceCount = instanceCount;
-	}
-	
-	public int getJobCount() {
-		return jobCount;
-	}
-	
-	public void setJobCount(int jobCount) {
-		this.jobCount = jobCount;
-	}
+	private static final boolean verbose = false;
 	
 	public static void main(String[] args) {
-		new TabuSearchAnalysis("data/orlib/wt40.txt", 125, 40).run();
+		
+		String[] smallwstPaths = {
+				"data/smallwst/data10.txt",
+				"data/smallwst/data11.txt",
+				"data/smallwst/data12.txt",
+				"data/smallwst/data13.txt",
+				"data/smallwst/data14.txt",
+				"data/smallwst/data15.txt",
+				"data/smallwst/data16.txt",
+				"data/smallwst/data17.txt",
+				"data/smallwst/data18.txt",
+				"data/smallwst/data19.txt",
+				"data/smallwst/data20.txt"
+		};
+		
+		String orlibPath = "data/orlib/wt40.txt";
+		
+		Random r = new Random();
+		
+		int[] orlibInstanceIndices = new int[orlibInstancesPerFile];
+		for (int i = 0; i < orlibInstanceIndices.length; i++) {
+			orlibInstanceIndices[i] = i;
+		}
+		
+		int errorCount = 0;
+		
+		long overallStartTime = System.nanoTime();
+		
+		LinkedHashMap<Integer, Long> instanceSizeMeanTimes = new LinkedHashMap<>();
+		LinkedHashMap<Integer, Long> passTimes = new LinkedHashMap<>(passes);
+		
+		BiConsumer<Integer, JobOrder> runAndBenchmark = (pass, jobs) -> {
+			long startTime, timeTaken;
+			startTime = System.nanoTime();
+			
+			TabuSearch.sort(jobs);
+			jobs = TabuSearch.findSolution(jobs);
+			
+			timeTaken = System.nanoTime() - startTime;
+			
+			if (verbose) {
+				System.out.println("Reached total weighted tardiness of "
+				                   + jobs.totalWeightedTardiness()
+				                   + " after " + timeTaken + " ns.");
+				
+				System.out.println("Solution:");
+				for (int i = 0; i < jobs.size(); i++) {
+					System.out.print(jobs.get(i).getId());
+					if (i < jobs.size() - 1) {
+						System.out.print(", ");
+					}
+				}
+				System.out.println();
+			}
+			
+			if (pass < warmupPasses) {
+				return;
+			}
+			
+			passTimes.compute(pass,
+					(k, v) -> (v == null)
+					          ? timeTaken
+					          : v + timeTaken);
+			instanceSizeMeanTimes.compute(jobs.size(),
+					(k, v) -> (v == null)
+					          ? timeTaken
+					          : (v * pass + timeTaken) / (pass + 1));
+		};
+		
+		for (int pass = 0; pass < passes; pass++) {
+			
+			if (verbose) {
+				System.out.println();
+				System.out.println("Pass # " + pass);
+				System.out.println();
+			}
+			
+			// smallWST
+			for (String path : smallwstPaths) {
+				if (verbose) System.out.println("Loading smallWST instance from " + path + " ...");
+				try {
+					JobOrder jobs = SmallwstLoader.load(path);
+					if (verbose) System.out.println("Read " + jobs.size() + " jobs.");
+					
+					runAndBenchmark.accept(pass, jobs);
+					
+				} catch (IOException | NumberFormatException e) {
+					if (verbose) System.err.println("Error loading problem instance: "
+					                                + e.getMessage());
+					errorCount++;
+				}
+				if (verbose) System.out.println();
+				
+			}
+			
+			// ORLib
+			int index = orlibInstanceIndices[pass];
+			
+			if (verbose) System.out.println("Loading ORLib instance # " + (index + 1)
+			                                + " from " + orlibPath + " ...");
+			try {
+				JobOrder jobs = OrlibLoader.load(orlibPath, orlibInstancesPerFile, index);
+				if (verbose) System.out.println("Read " + jobs.size() + " jobs.");
+				
+				runAndBenchmark.accept(pass, jobs);
+				
+			} catch (IOException | NumberFormatException e) {
+				if (verbose) System.err.println("Error loading problem instance: "
+				                                + e.getMessage());
+				errorCount++;
+			}
+			if (verbose) System.out.println();
+			
+		}
+		
+		long overallTimeTaken = System.nanoTime() - overallStartTime;
+		
+		System.out.println("Completed "
+		                   + passes + " passes of tabu search on "
+		                   + (smallwstPaths.length + 1)
+		                   + " instance sizes");
+		System.out.println("( " + errorCount + " errors )");
+		System.out.println();
+		
+		System.out.println("Statistics:");
+		System.out.println();
+		
+		System.out.println("Average search time per instance size");
+		instanceSizeMeanTimes.forEach((size, meanTime) -> {
+			System.out.println(size + ": " + meanTime + " ns");
+		});
+		System.out.println();
+		
+		System.out.println("Total time spent in tabu search each pass");
+		passTimes.forEach((pass, time) -> {
+			System.out.println(pass + ": " + time + " ns");
+		});
+		System.out.println();
+		
+		System.out.println("Total analysis time: " + overallTimeTaken + " ns");
+		long sumPassTimes = 0L;
+		for (long time : passTimes.values()) {
+			sumPassTimes += time;
+		}
+		System.out.println("IO and statistics overhead: " + (overallTimeTaken - sumPassTimes) + " ns");
 	}
 	
 }
