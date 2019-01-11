@@ -18,7 +18,7 @@ public class TabuSearch {
 	public static JobOrder findSolution(JobOrder jobs) {
 		JobOrder currentSolution = new JobOrder(jobs);
 		int currentSolutionTardiness = currentSolution.totalWeightedTardiness();
-		TabuList tabuList = new TabuList(4);
+		TabuList tabuList = new TabuList(16);
 		int turnsWithoutImprovement = 0;
 		
 		while (turnsWithoutImprovement < 32) {
