@@ -42,7 +42,7 @@ public class TabuSearch4JobTest extends Test {
 			System.err.println("TabuSearch4JobTest: The result of initial heuristic sort did not match the expected sequence.");
 		}
 		
-		TabuSearch.findSolution(jobs);
+		jobs = TabuSearch.findSolution(jobs);
 		
 		System.out.println("Solution:");
 		System.out.println(jobs.toString());

@@ -27,7 +27,7 @@ public class TabuSearchLive40Test extends Test {
 			
 			long startTime = System.nanoTime();
 			
-			TabuSearch.findSolution(jobs);
+			jobs = TabuSearch.findSolution(jobs);
 			
 			long timeTaken = System.nanoTime() - startTime;
 			
