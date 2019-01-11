@@ -144,7 +144,7 @@ public class DynamicSearchAnalysis {
 			int index = orlibInstanceIndices[pass];
 			
 			if (verbose) System.out.println("Loading ORLib instance # " + (index + 1)
-			                   + " from " + orlibPath + " ...");
+			                                + " from " + orlibPath + " ...");
 			try {
 				JobOrder jobs = OrlibLoader.load(orlibPath, orlibInstancesPerFile, index);
 				if (verbose) System.out.println("Read " + jobs.size() + " jobs.");

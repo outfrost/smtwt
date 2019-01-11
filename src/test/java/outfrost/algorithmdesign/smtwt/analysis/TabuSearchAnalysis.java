@@ -5,7 +5,6 @@ import outfrost.algorithmdesign.smtwt.JobOrder;
 import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
 import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Random;
