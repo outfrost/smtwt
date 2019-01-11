@@ -35,3 +35,6 @@ data/result/
 # OS bullshittery
 .DS_Store
 Thumbs.db
+
+# Whatever this is
+.attach_pid*
