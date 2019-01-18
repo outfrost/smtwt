@@ -30,13 +30,18 @@ public class AntColony4JobTest extends Test {
 		System.out.println("Initial sequence:");
 		System.out.println(jobs.toString());
 		
-		jobs = AntColonyOptimization.findSolution(jobs);
+		int successCount = 0;
+		for (int i = 0; i < 100; i++) {
+			JobOrder solution = AntColonyOptimization.findSolution(jobs);
+			if (solution.totalWeightedTardiness() == 201) {
+				successCount++;
+			}
+		}
 		
-		System.out.println("Solution:");
-		System.out.println(jobs.toString());
+		System.out.println("Reached optimal solution in " + successCount + "% of attempts");
 		
-		if (jobs.totalWeightedTardiness() != 201) {
-			System.err.println("AntColony4JobTest: Did not reach optimal solution.");
+		if (successCount < 90) {
+			System.err.println("AntColony4JobTest: Success rate was under 90%");
 		}
 		
 		System.out.println();

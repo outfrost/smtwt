@@ -22,7 +22,7 @@ class PheromoneTrail {
 		for (int i = 0; i < jobs.size(); i++) {
 			trail.put(i, new HashMap<>());
 			for (Job job : jobs) {
-				trail.get(i).put(job, 0.0f);
+				trail.get(i).put(job, 1.0f);
 			}
 		}
 	}

@@ -7,7 +7,7 @@ import java.util.Comparator;
 /**
  * Note: this comparator imposes orderings that are inconsistent with equals.
  */
-public class EarliestDueDateHeuristic extends Heuristic {
+public class EarliestDueDateHeuristic extends Heuristic implements Comparator<Job> {
 	
 	@Override
 	public int compare(Job o1, Job o2) {
@@ -15,7 +15,7 @@ public class EarliestDueDateHeuristic extends Heuristic {
 	}
 	
 	@Override
-	public float valueFor(Job job) {
+	public float valueFor(Job job, int startTime) {
 		return 1.0f / (float) job.getDueTime();
 	}
 	
