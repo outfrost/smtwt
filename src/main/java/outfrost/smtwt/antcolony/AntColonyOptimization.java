@@ -3,15 +3,16 @@ package outfrost.smtwt.antcolony;
 import outfrost.smtwt.Job;
 import outfrost.smtwt.JobOrder;
 import outfrost.smtwt.heuristic.EarliestDueDateHeuristic;
+import outfrost.smtwt.heuristic.Heuristic;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AntColonyOptimization {
 	
 	private static final int ants = 8;
-	private static final Comparator<? super Job> heuristic = new EarliestDueDateHeuristic();
+	private static final Heuristic heuristic = new EarliestDueDateHeuristic();
+	private static final float heuristicExponent = 2.0f;
 	private static final float evaporation = 0.1f;
 	private static final float intermediateTrailFactor = 0.1f;
 	
@@ -38,14 +39,15 @@ public class AntColonyOptimization {
 				
 				for (int i = 0; i < jobs.size(); i++) {
 					Job bestJob = null;
-					float bestTrailValue = 0.0f;
+					float bestMetric = 0.0f;
 					
 					for (Job job : jobs) {
-						float trailValue = pheromoneTrail.get(i, job);
-						if (!scheduled.get(job) && (trailValue > bestTrailValue
+						float metric = pheromoneTrail.get(i, job)
+						               * (float) Math.pow(heuristic.valueFor(job), heuristicExponent);
+						if (!scheduled.get(job) && (metric > bestMetric
 						                            || bestJob == null)) {
 							bestJob = job;
-							bestTrailValue = trailValue;
+							bestMetric = metric;
 						}
 					}
 					assert bestJob != null;
