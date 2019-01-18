@@ -41,4 +41,10 @@ class PheromoneTrail {
 		}
 	}
 	
+	void intermediateUpdate(int position, Job job, float factor, float vector) {
+		trail.get(position).compute(job,
+				(k, v) -> (1.0f - factor) * v
+				          + factor * vector);
+	}
+	
 }

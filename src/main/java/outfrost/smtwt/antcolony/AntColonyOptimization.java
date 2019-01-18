@@ -4,7 +4,6 @@ import outfrost.smtwt.Job;
 import outfrost.smtwt.JobOrder;
 import outfrost.smtwt.heuristic.EarliestDueDateHeuristic;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,16 +13,20 @@ public class AntColonyOptimization {
 	private static final int ants = 8;
 	private static final Comparator<? super Job> heuristic = new EarliestDueDateHeuristic();
 	private static final float evaporation = 0.1f;
+	private static final float intermediateTrailFactor = 0.1f;
 	
 	public static JobOrder findSolution(JobOrder jobs) {
 		JobOrder currentSolution = new JobOrder(jobs);
 		int currentSolutionTardiness = currentSolution.totalWeightedTardiness();
 		PheromoneTrail pheromoneTrail = new PheromoneTrail(jobs, evaporation);
+		float intermediateTrailVector;
 		
 		int turnsWithoutImprovement = 0;
 		
 		while (turnsWithoutImprovement < 64) {
 			turnsWithoutImprovement++;
+			intermediateTrailVector = 1.0f / ((float) jobs.size()
+			                                  * (float) currentSolutionTardiness);
 			
 			for (int ant = 0; ant < ants; ant++) {
 				JobOrder newSequence = new JobOrder(jobs.size());
@@ -49,6 +52,9 @@ public class AntColonyOptimization {
 					
 					newSequence.add(bestJob);
 					scheduled.put(bestJob, true);
+					
+					pheromoneTrail.intermediateUpdate(i, bestJob,
+							intermediateTrailFactor, intermediateTrailVector);
 				}
 				
 				int newSequenceTardiness = newSequence.totalWeightedTardiness();
