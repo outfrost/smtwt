@@ -1,8 +1,8 @@
-package outfrost.algorithmdesign.smtwt.test;
+package outfrost.smtwt.test;
 
-import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.bruteforce.BruteForce;
-import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
+import outfrost.smtwt.JobOrder;
+import outfrost.smtwt.bruteforce.BruteForce;
+import outfrost.smtwt.util.SmallwstLoader;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -1,7 +1,7 @@
-package outfrost.algorithmdesign.smtwt.bruteforce;
+package outfrost.smtwt.bruteforce;
 
-import outfrost.algorithmdesign.smtwt.Job;
-import outfrost.algorithmdesign.smtwt.JobOrder;
+import outfrost.smtwt.Job;
+import outfrost.smtwt.JobOrder;
 
 import java.util.LinkedList;
 

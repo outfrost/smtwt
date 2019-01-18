@@ -1,10 +1,9 @@
-package outfrost.algorithmdesign.smtwt.test;
+package outfrost.smtwt.test;
 
-import outfrost.algorithmdesign.smtwt.dynasearch.DynamicSearch;
-import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
+import outfrost.smtwt.dynasearch.DynamicSearch;
+import outfrost.smtwt.JobOrder;
+import outfrost.smtwt.util.OrlibLoader;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Random;
 

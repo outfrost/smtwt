@@ -1,10 +1,9 @@
-package outfrost.algorithmdesign.smtwt.test;
+package outfrost.smtwt.test;
 
-import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
-import outfrost.algorithmdesign.smtwt.tabusearch.TabuSearch;
+import outfrost.smtwt.JobOrder;
+import outfrost.smtwt.util.OrlibLoader;
+import outfrost.smtwt.tabusearch.TabuSearch;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 
 public class TabuSearchLive40Test extends Test {

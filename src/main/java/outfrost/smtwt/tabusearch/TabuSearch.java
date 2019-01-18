@@ -1,14 +1,14 @@
-package outfrost.algorithmdesign.smtwt.tabusearch;
+package outfrost.smtwt.tabusearch;
 
-import outfrost.algorithmdesign.smtwt.Job;
-import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.heuristic.EarliestDueDateHeuristic;
+import outfrost.smtwt.Job;
+import outfrost.smtwt.JobOrder;
+import outfrost.smtwt.heuristic.EarliestDueDateHeuristic;
 
 import java.util.Collections;
 import java.util.Comparator;
 
 public class TabuSearch {
-
+	
 	private static final Comparator<? super Job> initialHeuristic = new EarliestDueDateHeuristic();
 	
 	public static void sort(JobOrder jobs) {

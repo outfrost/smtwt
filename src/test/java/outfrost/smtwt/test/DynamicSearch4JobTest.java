@@ -1,16 +1,16 @@
-package outfrost.algorithmdesign.smtwt.test;
+package outfrost.smtwt.test;
 
-import outfrost.algorithmdesign.smtwt.Job;
-import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.tabusearch.TabuSearch;
+import outfrost.smtwt.dynasearch.DynamicSearch;
+import outfrost.smtwt.Job;
+import outfrost.smtwt.JobOrder;
 
 import java.util.Arrays;
 
-public class TabuSearch4JobTest extends Test {
+public class DynamicSearch4JobTest extends Test {
 	
 	@Override
 	public void run() {
-		System.out.println("Running trivial 4-job test with tabu search...");
+		System.out.println("Running trivial 4-job test with dynamic search...");
 		
 		/*
 		j		processing_time		weight		due_after
@@ -33,16 +33,16 @@ public class TabuSearch4JobTest extends Test {
 		System.out.println("Expected sequence after initial heuristic sort:");
 		System.out.println(expectedOrder.toString());
 		
-		TabuSearch.sort(jobs);
+		DynamicSearch.sort(jobs);
 		
 		System.out.println("After initial heuristic sort:");
 		System.out.println(jobs.toString());
 		
 		if(!jobs.equals(expectedOrder)) {
-			System.err.println("TabuSearch4JobTest: The result of initial heuristic sort did not match the expected sequence.");
+			System.err.println("DynamicSearch4JobTest: The result of initial heuristic sort did not match the expected sequence.");
 		}
 		
-		jobs = TabuSearch.findSolution(jobs);
+		DynamicSearch.findSolution(jobs);
 		
 		System.out.println("Solution:");
 		System.out.println(jobs.toString());

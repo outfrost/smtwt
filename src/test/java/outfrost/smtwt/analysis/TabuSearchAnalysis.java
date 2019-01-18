@@ -1,17 +1,20 @@
-package outfrost.algorithmdesign.smtwt.analysis;
+package outfrost.smtwt.analysis;
 
-import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.bruteforce.BruteForce;
-import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
+import outfrost.smtwt.tabusearch.TabuSearch;
+import outfrost.smtwt.JobOrder;
+import outfrost.smtwt.util.OrlibLoader;
+import outfrost.smtwt.util.SmallwstLoader;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.Random;
 import java.util.function.BiConsumer;
 
-public class BruteForceAnalysis {
+public class TabuSearchAnalysis {
 	
-	private static final int passes = 15;
+	private static final int passes = 125;
 	private static final int warmupPasses = 5;
+	private static final int orlibInstancesPerFile = 125;
 	
 	private static final boolean verbose = false;
 	
@@ -20,7 +23,7 @@ public class BruteForceAnalysis {
 		String[] smallwstPaths = {
 				"data/smallwst/data10.txt",
 				"data/smallwst/data11.txt",
-				/*"data/smallwst/data12.txt",
+				"data/smallwst/data12.txt",
 				"data/smallwst/data13.txt",
 				"data/smallwst/data14.txt",
 				"data/smallwst/data15.txt",
@@ -28,8 +31,17 @@ public class BruteForceAnalysis {
 				"data/smallwst/data17.txt",
 				"data/smallwst/data18.txt",
 				"data/smallwst/data19.txt",
-				"data/smallwst/data20.txt"*/
+				"data/smallwst/data20.txt"
 		};
+		
+		String orlibPath = "data/orlib/wt40.txt";
+		
+		Random r = new Random();
+		
+		int[] orlibInstanceIndices = new int[orlibInstancesPerFile];
+		for (int i = 0; i < orlibInstanceIndices.length; i++) {
+			orlibInstanceIndices[i] = i;
+		}
 		
 		int errorCount = 0;
 		
@@ -42,7 +54,8 @@ public class BruteForceAnalysis {
 			long startTime, timeTaken;
 			startTime = System.nanoTime();
 			
-			BruteForce.findSolution(jobs);
+			TabuSearch.sort(jobs);
+			jobs = TabuSearch.findSolution(jobs);
 			
 			timeTaken = System.nanoTime() - startTime;
 			
@@ -101,12 +114,30 @@ public class BruteForceAnalysis {
 				
 			}
 			
+			// ORLib
+			int index = orlibInstanceIndices[pass];
+			
+			if (verbose) System.out.println("Loading ORLib instance # " + (index + 1)
+			                                + " from " + orlibPath + " ...");
+			try {
+				JobOrder jobs = OrlibLoader.load(orlibPath, orlibInstancesPerFile, index);
+				if (verbose) System.out.println("Read " + jobs.size() + " jobs.");
+				
+				runAndBenchmark.accept(pass, jobs);
+				
+			} catch (IOException | NumberFormatException e) {
+				if (verbose) System.err.println("Error loading problem instance: "
+				                                + e.getMessage());
+				errorCount++;
+			}
+			if (verbose) System.out.println();
+			
 		}
 		
 		long overallTimeTaken = System.nanoTime() - overallStartTime;
 		
 		System.out.println("Completed "
-		                   + passes + " passes of brute force on "
+		                   + passes + " passes of tabu search on "
 		                   + (smallwstPaths.length + 1)
 		                   + " instance sizes");
 		System.out.println("( " + errorCount + " errors )");
@@ -121,7 +152,7 @@ public class BruteForceAnalysis {
 		});
 		System.out.println();
 		
-		System.out.println("Total time spent in brute force each pass");
+		System.out.println("Total time spent in tabu search each pass");
 		passTimes.forEach((pass, time) -> {
 			System.out.println(pass + ": " + time + " ns");
 		});

@@ -1,8 +1,8 @@
-package outfrost.algorithmdesign.smtwt.dynasearch;
+package outfrost.smtwt.dynasearch;
 
-import outfrost.algorithmdesign.smtwt.Job;
-import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.heuristic.EarliestDueDateHeuristic;
+import outfrost.smtwt.Job;
+import outfrost.smtwt.JobOrder;
+import outfrost.smtwt.heuristic.EarliestDueDateHeuristic;
 
 import java.util.Collections;
 import java.util.Comparator;

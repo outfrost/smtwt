@@ -1,4 +1,4 @@
-package outfrost.algorithmdesign.smtwt.test;
+package outfrost.smtwt.test;
 
 public abstract class Test implements Runnable {
 

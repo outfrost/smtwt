@@ -1,7 +1,7 @@
-package outfrost.algorithmdesign.smtwt.util;
+package outfrost.smtwt.util;
 
-import outfrost.algorithmdesign.smtwt.Job;
-import outfrost.algorithmdesign.smtwt.JobOrder;
+import outfrost.smtwt.Job;
+import outfrost.smtwt.JobOrder;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -1,16 +1,15 @@
-package outfrost.algorithmdesign.smtwt.analysis;
+package outfrost.smtwt.analysis;
 
-import outfrost.algorithmdesign.smtwt.tabusearch.TabuSearch;
-import outfrost.algorithmdesign.smtwt.JobOrder;
-import outfrost.algorithmdesign.smtwt.util.OrlibLoader;
-import outfrost.algorithmdesign.smtwt.util.SmallwstLoader;
+import outfrost.smtwt.dynasearch.DynamicSearch;
+import outfrost.smtwt.JobOrder;
+import outfrost.smtwt.util.OrlibLoader;
+import outfrost.smtwt.util.SmallwstLoader;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Random;
+import java.util.*;
 import java.util.function.BiConsumer;
 
-public class TabuSearchAnalysis {
+public class DynamicSearchAnalysis {
 	
 	private static final int passes = 125;
 	private static final int warmupPasses = 5;
@@ -37,8 +36,35 @@ public class TabuSearchAnalysis {
 		String orlibPath = "data/orlib/wt40.txt";
 		
 		Random r = new Random();
-		
-		int[] orlibInstanceIndices = new int[orlibInstancesPerFile];
+		int[] orlibInstanceIndices = new int[orlibInstancesPerFile];/*{
+				// Has to contain at least `passes` items
+				// in the range `[0; orlibInstancesPerFile)`
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile),
+				r.nextInt(orlibInstancesPerFile)
+		};*/
 		for (int i = 0; i < orlibInstanceIndices.length; i++) {
 			orlibInstanceIndices[i] = i;
 		}
@@ -54,8 +80,8 @@ public class TabuSearchAnalysis {
 			long startTime, timeTaken;
 			startTime = System.nanoTime();
 			
-			TabuSearch.sort(jobs);
-			jobs = TabuSearch.findSolution(jobs);
+			DynamicSearch.sort(jobs);
+			DynamicSearch.findSolution(jobs);
 			
 			timeTaken = System.nanoTime() - startTime;
 			
@@ -137,7 +163,7 @@ public class TabuSearchAnalysis {
 		long overallTimeTaken = System.nanoTime() - overallStartTime;
 		
 		System.out.println("Completed "
-		                   + passes + " passes of tabu search on "
+		                   + passes + " passes of dynamic search on "
 		                   + (smallwstPaths.length + 1)
 		                   + " instance sizes");
 		System.out.println("( " + errorCount + " errors )");
@@ -152,7 +178,7 @@ public class TabuSearchAnalysis {
 		});
 		System.out.println();
 		
-		System.out.println("Total time spent in tabu search each pass");
+		System.out.println("Total time spent in dynamic search each pass");
 		passTimes.forEach((pass, time) -> {
 			System.out.println(pass + ": " + time + " ns");
 		});

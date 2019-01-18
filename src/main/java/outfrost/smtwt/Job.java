@@ -1,4 +1,4 @@
-package outfrost.algorithmdesign.smtwt;
+package outfrost.smtwt;
 
 public class Job implements java.io.Serializable {
 	
